@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('password');
             $table->string('sex');
             $table->integer('level');
-            $table->string('photo');    
-            // $table->rememberToken();
+            $table->string('photo')->nullable();   
+            $table->string('recover_password');
             //$table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });
