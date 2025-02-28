@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,7 @@ Route::get('/', function () {
     return 'Hello world!';
 });
 Route::post('/user', [UserController::class, 'addUser']);
+Route::post('/category', [CategoryController::class, 'addCategory']);
 
 // Route::middleware('auth:sanctum')->get('/', function (Request $request) {
 //     return $request->user();
