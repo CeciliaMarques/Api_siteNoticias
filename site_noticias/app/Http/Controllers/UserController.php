@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use App\Models\User;
 
 class UserController extends Controller
@@ -50,6 +51,43 @@ class UserController extends Controller
         }
     }
 
+    public function updateUser(Request $request, $id)
+    {
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json([
+                'message' => 'User not found',
+            ], 404);
+        }
+        $fields = $request->validate([
+            'name' => 'required|string',
+            'email' => [
+                'required',
+                'string',
+                Rule::unique('users', 'email')->ignore($id),
+            ],
+            'sex' => 'required|string',
+            'level' => 'required|integer',
+        ]);
+        try {
+            $user->update([
+                'name'  => $fields['name'],
+                'email' => $fields['email'],
+                'sex'  => $fields['sex'],
+                'level' => $fields['level']
+            ]);
+
+            return response()->json([
+                'message' => ' User updated successfully.',
+                'user' => $user
+
+            ], 200);
+        } catch (\Exception $e) {
+            // Retornar erro genérico
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
     public function listUsers()
     {
         try {
@@ -73,6 +111,28 @@ class UserController extends Controller
             return response()->json([
                 'message' => ' User.',
                 'user' => $user
+            ], 200);
+        } catch (\Exception $e) {
+            // Retornar erro genérico
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function deleteUser($id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'User not found',
+            ], 404);
+        }
+        try {
+
+            $user->delete();
+
+            return response()->json([
+                'message' => ' User Deleted Successfully.',
             ], 200);
         } catch (\Exception $e) {
             // Retornar erro genérico

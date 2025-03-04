@@ -32,6 +32,11 @@ Route::get('/user/{id}', [UserController::class, 'listUser']);
 Route::get('/category/{id}', [CategoryController::class, 'listCategory']);
 Route::get('/news/{id}', [NewsController::class, 'listNew']);
 
+Route::put('/user/{id}', [UserController::class, 'updateUser']);
+
+
+Route::delete('/user/{id}', [UserController::class, 'deleteUser']);
+
 // Route::middleware('auth:sanctum')->get('/', function (Request $request) {
 //     return $request->user();
 // });
