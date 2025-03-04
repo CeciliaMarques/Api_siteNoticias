@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\NewsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,16 @@ Route::get('/', function () {
 });
 Route::post('/user', [UserController::class, 'addUser']);
 Route::post('/category', [CategoryController::class, 'addCategory']);
+Route::post('/news', [NewsController::class, 'addNews']);
+
+
+Route::get('/users', [UserController::class, 'listUsers']);
+Route::get('/categories', [CategoryController::class, 'listCategories']);
+Route::get('/news', [NewsController::class, 'listNews']);
+
+Route::get('/user/{id}', [UserController::class, 'listUser']);
+Route::get('/category/{id}', [CategoryController::class, 'listCategory']);
+Route::get('/news/{id}', [NewsController::class, 'listNew']);
 
 // Route::middleware('auth:sanctum')->get('/', function (Request $request) {
 //     return $request->user();

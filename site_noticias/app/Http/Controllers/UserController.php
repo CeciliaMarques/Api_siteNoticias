@@ -26,7 +26,7 @@ class UserController extends Controller
             'level' => 'required|integer',
             'photo' => 'required|string',
         ]);
-    
+
         try {
 
             $user = User::create([
@@ -38,17 +38,45 @@ class UserController extends Controller
                 'photo' => $fields['photo'] ?? null,
                 'recover_password' => ''
             ]); {
-                
+
                 return response()->json([
                     'message' => ' User Registered Successfully.',
-                    'user'=>$user
+                    'user' => $user
                 ], 201);
             }
-        
         } catch (\Exception $e) {
             // Retornar erro genérico
             return response()->json(['error' => $e->getMessage()], 500);
-        
+        }
+    }
+
+    public function listUsers()
+    {
+        try {
+            $users = User::all();
+
+            return response()->json([
+                'message' => ' Users.',
+                'users' => $users
+            ], 200);
+        } catch (\Exception $e) {
+            // Retornar erro genérico
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function listUser($id)
+    {
+        try {
+            $user = User::find($id);
+
+            return response()->json([
+                'message' => ' User.',
+                'user' => $user
+            ], 200);
+        } catch (\Exception $e) {
+            // Retornar erro genérico
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 }
