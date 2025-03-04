@@ -30,12 +30,16 @@ Route::get('/news', [NewsController::class, 'listNews']);
 
 Route::get('/user/{id}', [UserController::class, 'listUser']);
 Route::get('/category/{id}', [CategoryController::class, 'listCategory']);
-Route::get('/news/{id}', [NewsController::class, 'listNew']);
+Route::get('/news/{id}', [NewsController::class, 'listOneNews']);
 
 Route::put('/user/{id}', [UserController::class, 'updateUser']);
+Route::put('/category/{id}', [CategoryController::class, 'updateCategory']);
+Route::put('/news/{id}', [NewsController::class, 'updateNews']);
 
 
 Route::delete('/user/{id}', [UserController::class, 'deleteUser']);
+Route::delete('/category/{id}', [CategoryController::class, 'deleteCategory']);
+Route::delete('/news/{id}', [NewsController::class, 'deleteNews']);
 
 // Route::middleware('auth:sanctum')->get('/', function (Request $request) {
 //     return $request->user();

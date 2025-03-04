@@ -15,9 +15,9 @@ class NewsController extends Controller
             'title' => 'required|string',
             'caption' => 'required|string',
             'date' => 'required|date_format:Y-m-d',
-            'text' => 'required|string',       
-            'published_at'=> 'required|date_format:Y-m-d',
-            'status' =>'required|string',
+            'text' => 'required|string',
+            'published_at' => 'required|date_format:Y-m-d',
+            'status' => 'required|string',
             'category_id' => 'required|integer',
             'user_id' => 'required|integer'
         ]);
@@ -32,8 +32,8 @@ class NewsController extends Controller
                 'text' => $fields['text'],
                 'published_at' => $fields['published_at'],
                 'status' => $fields['status'],
-                'category_id'=> $fields['category_id'],
-                'user_id'=> $fields['user_id']
+                'category_id' => $fields['category_id'],
+                'user_id' => $fields['user_id']
 
             ]); {
 
@@ -44,6 +44,50 @@ class NewsController extends Controller
             }
         } catch (\Exception $e) {
             // Retornar erro genérico
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function updateNews(Request $request, $id)
+    {
+        $news = News::find($id);
+        if (!$news) {
+            return response()->json([
+                'message' => ' News not found',
+            ], 404);
+        }
+
+        $fields = $request->validate([
+            'author_name' => 'required|string',
+            'title' => 'required|string',
+            'caption' => 'required|string',
+            'date' => 'required|date_format:Y-m-d',
+            'text' => 'required|string',
+            'published_at' => 'required|date_format:Y-m-d',
+            'status' => 'required|string',
+            'category_id' => 'required|integer',
+            'user_id' => 'required|integer'
+        ]);
+        try {
+            $news->update([
+                'author_name' => $fields['author_name'],
+                'title' => $fields['title'],
+                'caption' => $fields['caption'],
+                'date' => $fields['date'],
+                'text' => $fields['text'],
+                'published_at' => $fields['published_at'],
+                'status' => $fields['status'],
+                'category_id' => $fields['category_id'],
+                'user_id' => $fields['user_id']
+
+            ]);
+
+            return response()->json([
+                'message' => ' News updated successfully.',
+                'news' => $news
+
+            ], 200);
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
@@ -63,7 +107,7 @@ class NewsController extends Controller
         }
     }
 
-    public function listNew($id)
+    public function listOneNews($id)
     {
         try {
             $news = News::find($id);
@@ -74,6 +118,28 @@ class NewsController extends Controller
             ], 200);
         } catch (\Exception $e) {
             // Retornar erro genérico
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+    
+    public function deleteNews($id)
+    {
+        $news = News::find($id);
+
+        if (!$news) {
+            return response()->json([
+                'message' => ' News not found',
+            ], 404);
+        }
+        try {
+
+            $news->delete();
+
+            return response()->json([
+                'message' => ' News Deleted Successfully.',
+            ], 200);
+        } catch (\Exception $e) {
+
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
